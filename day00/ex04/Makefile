@@ -7,7 +7,7 @@ CC			=	avr-gcc
 all: hex flash
 
 hex:
-	$(CC) -mmcu=$(MCU_TYPE) -DF_CPU=$(F_CPU) -Os main.c -o main.bin
+	$(CC) -mmcu=$(MCU_TYPE) -DF_CPU=$(F_CPU) -Os main.c tools.c -o main.bin
 	avr-objcopy -O ihex main.bin main.hex
 
 flash:
