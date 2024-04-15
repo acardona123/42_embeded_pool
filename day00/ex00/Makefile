@@ -11,7 +11,7 @@ hex:
 	avr-objcopy -O ihex main.bin main.hex
 
 flash:
-	avrdude -p m328p -c arduino -b 115200 -e -u -P /dev/ttyUSB0 -U flash:w:main.hex:i main.hex -v
+	avrdude -p m328p -c arduino -b 115200 -e -u -P /dev/ttyUSB0 -U flash:w:main.hex:i -v
  
 
 clean:
