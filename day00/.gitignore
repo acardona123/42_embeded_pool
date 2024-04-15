@@ -1,2 +1,5 @@
 *.o
+*.bin
 *.hex
+a.out
+tests/
