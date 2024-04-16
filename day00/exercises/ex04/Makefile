@@ -34,7 +34,7 @@ $(NAME).bin: $(OBJ)
 	$(CC) $(CFLAGS) $(OBJ) -o $(NAME).bin
 	avr-objcopy -O ihex $(NAME).bin $(NAME).hex
 
-flash:
+flash: hex
 	avrdude -p m328p -c arduino -b 115200 -e -u -P /dev/ttyUSB0 -U flash:w:$(NAME).hex:i
 
 $(OBJ_DIR)/%.o : $(SRC_DIR)/%.c Makefile
