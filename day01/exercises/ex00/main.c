@@ -2,7 +2,7 @@
 
 #define NUMBER_OF_CYCLES_PER_LOOP	4
 #define TARGET_FREQUENCY			0.5f
-#define CORRECTOR					10
+#define CORRECTOR					25
 
 static const unsigned long long int target_cpt = F_CPU / NUMBER_OF_CYCLES_PER_LOOP * TARGET_FREQUENCY / CORRECTOR;
 

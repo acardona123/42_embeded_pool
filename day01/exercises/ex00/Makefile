@@ -4,7 +4,7 @@ F_CPU		=	16000000UL
 MCU_TYPE	=	atmega328p
 
 CC			=	avr-gcc
-CFLAGS		=	-mmcu=$(MCU_TYPE) -DF_CPU=$(F_CPU) -Os
+CFLAGS		=	-mmcu=$(MCU_TYPE) -DF_CPU=$(F_CPU)
 DEPSFLAG	=	-MMD
 
 FILES		=	main \
