@@ -4,9 +4,9 @@
 # include <avr/io.h>
 # include <util/delay.h>
 
-# define SET(x, y) x|=(1 << y)
-# define TOGGLE(x, y) x^=(1 << y)
-# define RESET(x, y) x&= ~(1<<y)
+# define SET(x, y) ((x)|=(1 << (y)))
+# define TOGGLE(x, y) ((x)^=(1 << (y)))
+# define RESET(x, y) ((x)&=~(1<<(y)))
 
 typedef enum e_bool
 {
