@@ -50,7 +50,7 @@ int main( void )
 
 void	cpt_init(void)
 {	
-	//predivider // divide by 256
+	//predivider // divide by 256 ==> 62500
 	RESET(TCCR1B, CS10);
 	RESET(TCCR1B, CS11);
 	SET(TCCR1B, CS12); 

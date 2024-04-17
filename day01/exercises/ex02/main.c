@@ -1,7 +1,5 @@
 # include "main.h"
 
-#define REAL_FCPU	1203000 //real fcpu = 0-20MHz
-
 #define DUTTY_CYCLE	0.1
 
 void	cpt_init(void);
