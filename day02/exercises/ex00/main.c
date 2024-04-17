@@ -39,12 +39,14 @@ int main( void )
 	return (0);
 }
 
-ISR(INT0_vect)
+ISR(INT0_vect) //macro that is lauched when INT0 is triggered, cf https://www.epfl.ch/campus/associations/list/robopoly/wp-content/uploads/2018/09/10-Timers-et-interruptions.pdf
 {
+	cli(); //to disabble the interrupts
 	if ( cpt == DELAY )
 	{
 		TOGGLE(PORTB, D1);
 		cpt = 0;
 	}
+	sei(); // to enable again the interrupts
 }
 
