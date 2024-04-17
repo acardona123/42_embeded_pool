@@ -2,7 +2,7 @@
 
 #define REAL_FCPU	1203000 //real fcpu = 0-20MHz
 
-int	g_dutty_cycle_percent = 0;
+int	g_dutty_cycle_percent = 10;
 
 void	cpt_init(void);
 void	increment_dutty_cycle( void );
@@ -77,7 +77,7 @@ void	increment_dutty_cycle( void )
 }
 void	decrement_dutty_cycle( void )
 {
-	if (g_dutty_cycle_percent > 0)
+	if (g_dutty_cycle_percent > 10)
 		g_dutty_cycle_percent -= 10;
 	OCR1A = (62500 / 100) * g_dutty_cycle_percent;
 
