@@ -71,36 +71,6 @@ void init_USART( void )
 		SET(UCSR0B, RXEN0); //transmission off
 }
 
-void	cpt_init(void)
-{
-	//predivider // divide by 1024
-	unsigned int	prescaler = 1024;
-	SET(TCCR1B, CS10);
-	RESET(TCCR1B, CS11);
-	SET(TCCR1B, CS12); 
-
-	//set comparisons doc Table 16-1 
-	RESET(TCCR1A, COM1A0); //(no port operation)
-	RESET(TCCR1A, COM1A1);
-	OCR1A = (float)F_CPU / (prescaler * TARGET_TIMER_FREQ_1) + 0.5; // formula end of 16.9.2, rounded to the closest
-
-	//wave generation mode bit description
-	RESET(TCCR1A, WGM10);
-	RESET(TCCR1A, WGM11);
-	SET(TCCR1B, WGM12);
-	RESET(TCCR1B, WGM13);
-
-	//set interrupt doc 16.11.8
-	SET(TIMSK1, OCIE1A);
-}
-
-ISR(TIMER1_COMPA_vect)
-{
-	unsigned char	c;
-	c = uart_rx();
-	uart_tx(c);
-}
-
 //from the doc 20.6.1
 //to transmit a char (8bits) one must write the char 
 void uart_tx( unsigned char data )
