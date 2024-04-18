@@ -35,7 +35,10 @@ $(NAME).bin: $(OBJ)
 	$(CC) $(CFLAGS) $(OBJ) -o $(NAME).bin
 
 flash: hex
+	@screen -X quit || true
 	avrdude -p m328p -c arduino -b $(UART_BAUDRATE) -e -u -P /dev/ttyUSB0 -U flash:w:$(NAME).hex:i
+	terminator -e 'screen /dev/ttyUSB0 $(UART_BAUDRATE)'
+
 
 $(OBJ_DIR)/%.o : $(SRC_DIR)/%.c Makefile
 	@mkdir -p $(OBJ_DIR)
