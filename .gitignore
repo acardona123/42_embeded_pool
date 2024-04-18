@@ -1,5 +1,9 @@
+.gitignore
 *.o
+*.d
 *.bin
 *.hex
 a.out
+obj/
 tests/
+.clangd
