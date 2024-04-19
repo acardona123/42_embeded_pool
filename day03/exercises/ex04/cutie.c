@@ -67,6 +67,7 @@ void	display_frame(char *frame_begin, char *frame_end)
 void display_film( void )
 {
 	erase_n_characters(800);
+	uart_printstr("\x1b[?25l");
 	
 	char frame[667] = "\r\n       يقبدومقبقب                                             \n\r    وممبوسمحميقبدوم                                       🕊️    \n\r  كحوللحروفلعيةىروممكن                                         \n\r هموعيسمحتكستهوولموعيسمح                                       \n\r بريميرولافدميدكومبوزلعربي                                      \n\r   بةمفهومةمنقبلاغلببرامج                                       \n\r    تينياتإيبسومإيبسوم                                         \n\r        لطفةششوش                                             ";
 	char frame_bis[610] = "         \n\r         |    |_🐦                                             \n\r         {     _/¯                                             \n\r         |    /                                                \n\r         |    |                                                \n\r         |  @ |                                                \n\r         |    {                                                \n\r        /      \\           🌸                 🌸 🌻        🌼  \n\rبننطيننيننيمنطبطيبميبميبميبميننيننيطنيننيبميبمي\\  ^     /ميبننيب";

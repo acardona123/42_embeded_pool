@@ -103,6 +103,7 @@ void	yahoooooooooooooo( void )
 	uart_printstr((const char *
 	)g_login);
 	uart_printstr(", I love you so much ! 🙂\n\r");
+	_delay_ms(1000);
 	g_checking = CONGRATULATIONS;
 }
 
