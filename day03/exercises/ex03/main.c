@@ -15,7 +15,6 @@ globally disabled) when doing the initialization
 // to exit: ctrl+a puis k puis y
 
 void			init_USART( void );
-void			cpt_init(void);
 void			uart_tx( unsigned char data );
 void			uart_printstr( const char*str );
 unsigned char	uart_rx( void );
