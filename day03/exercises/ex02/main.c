@@ -68,7 +68,7 @@ void init_USART( void )
 
 	// enabling Transmitter (not receiver)
 		SET(UCSR0B, TXEN0); //transmission on
-		SET(UCSR0B, RXEN0); //transmission off
+		SET(UCSR0B, RXEN0); //reception on
 }
 
 //from the doc 20.6.1

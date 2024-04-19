@@ -39,7 +39,7 @@ void init_USART( void )
 		// using USART Baud Rate Register (UBRRn). cf table 20-1 in normal mode.
 		// UBRR0 = fosc/(16*BAUD)-1  fosc should be 13MHz according to the shema.pdf, but the subject indicates to use F_CPU
 		int	ubrr0 = (float)(F_CPU) / (16 * UART_BAUDRATE) - 1; // ~= 7.68 ~= 8 could have been bigger then  255 -> UBRR0 is saved in two bytes (high and low), UBBROH and UBBROL
-		++ubrr0; //to round it to 8
+		++ubrr0; //to round it to 8 -> see table 20-7
 	UBRR0L = (unsigned  char)(ubrr0 & 0xFF);
 	UBRR0H = (unsigned  char)(ubrr0 >> 8);
 		
@@ -57,7 +57,7 @@ void init_USART( void )
 
 	// enabling Transmitter (not receiver)
 		SET(UCSR0B, TXEN0); //transmission on
-		RESET(UCSR0B, RXEN0); //transmission off
+		RESET(UCSR0B, RXEN0); //reception off
 }
 
 //from the doc 20.6.1
