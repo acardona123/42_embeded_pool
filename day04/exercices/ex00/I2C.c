@@ -97,10 +97,10 @@ void _i2c_send_SLA( char slave_addr, e_mode_RW mode) //master transmitter mode
 
 	TWDR = slave_addr << 1; //the slave address
 	// RESET(TWAR, TWGCE); //no recognition of the general call address (0x00)
-	// if (mode == MODE_READ) //read/write mode
-	// 	SET(TWDR, 0);
-	// else
-	//  	RESET(TWDR, 0);
+	if (mode == MODE_READ) //read/write mode
+		SET(TWDR, 0);
+	else
+	 	RESET(TWDR, 0);
 
 	TWAMR = 0; //bit 1-7 -> no slave mask, all the slave address is read.
 
