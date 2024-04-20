@@ -11,6 +11,7 @@ DEPSFLAG		=	-MMD
 FILES			=	main \
 					UART \
 					I2C \
+					AHT20 \
 					tools
 
 SRC_DIR			=	.

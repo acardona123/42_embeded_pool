@@ -7,21 +7,21 @@
 
 #define I2C_BIT_RATE_FREQUENCY 100000//Hz
 
+# define NACK 0
+# define ACK 1
+
 typedef enum e_mode_RW
 {
 	MODE_READ,
 	MODE_WRITE
 }	e_mode_RW;
 
-void		_i2c_init( void );
-void		_i2c_stop( void );
-e_success	_i2c_start( void );
-e_success	_i2c_start( void );
-e_success	_i2c_repeated_start( void );
-e_success	_i2c_send_SLA( char slave_addr, e_mode_RW mode);
-e_success	_i2c_sending_data_char(char data);
-e_success	_i2c_sending_data_str(char *data);
-char		_i2c_receiving_data( bool stop_after_reception  );
-e_mode_RW	_i2c_get_RW_status( void );
+void 	_i2c_init( void );
+int8_t	i2c_start(uint8_t addr, e_mode_RW RW_mode);
+void	i2c_stop(void);
+int8_t	i2c_write(unsigned char data);
+uint8_t	i2c_read(uint8_t ack, uint8_t *dest);
+
+
 
 #endif
