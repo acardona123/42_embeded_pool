@@ -9,6 +9,7 @@ int main()
 	_delay_ms(THERMO_SENSOR_INIT_TIME * 2);
 	i2c_start();
 	i2c_stop();
+
 	return (0);
 }
 
