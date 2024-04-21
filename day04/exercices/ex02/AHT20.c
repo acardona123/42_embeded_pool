@@ -149,7 +149,7 @@ static void	aht20_get_temperature_humidity_from_raw_data(uint8_t *measure_raw_da
 	humidity_signal = measure_raw_data[1];
 	humidity_signal	<<= 8;
 	humidity_signal += measure_raw_data[2];
-	humidity_signal	<<= 8;
+	humidity_signal	<<= 4;
 	humidity_signal += (measure_raw_data[3] >> 4);
 	*humidity = (float)(humidity_signal * 100)/TWO_POWER_TWENTY;
 

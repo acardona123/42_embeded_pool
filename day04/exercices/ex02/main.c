@@ -6,7 +6,7 @@ int main()
 
 	uart_print_str("=====\r\nSTART\r\n====\r\n\n");
 
-	_i2c_init();
+	i2c_init();
 
 	if (aht20_init())
 	{
@@ -40,7 +40,7 @@ void	print_temperature_humidity(float temperature, float humidity)
 	dtostrf(temperature, 0, 1, str);
 	uart_print_str(str);
 	uart_print_str("°C, Humidity: ");
-	dtostrf(humidity, 0, 1, str);
+	dtostrf(humidity, 0, 0, str);
 	uart_print_str(str);
 	uart_print_str("%\n\r");
 }

@@ -16,7 +16,7 @@ typedef enum e_mode_RW
 	MODE_WRITE
 }	e_mode_RW;
 
-void 	_i2c_init( void );
+void 	i2c_init( void );
 int8_t	i2c_start(uint8_t addr, e_mode_RW RW_mode);
 void	i2c_stop(void);
 int8_t	i2c_write(unsigned char data);
