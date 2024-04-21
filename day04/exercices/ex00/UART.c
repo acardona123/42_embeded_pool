@@ -67,7 +67,7 @@ unsigned char uart_rx( void )
 	return (UDR0);
 }
 
-void uart_printstr( const char *str )
+void uart_print_str( const char *str )
 {
 	unsigned long long int i;
 
@@ -88,7 +88,7 @@ void	uart_txt_erase_char( void )
 	uart_tx(8);
 }
 
-void	uart_printhexa( unsigned char c )
+void	uart_print_hexa( unsigned char c )
 {
 	uart_tx("0123456789ABCDEF"[c >> 4]);
 	uart_tx("0123456789ABCDEF"[c & 0x0f]);

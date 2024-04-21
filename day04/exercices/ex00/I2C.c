@@ -5,11 +5,19 @@
 void _i2c_ERROR_display( const char *err_source )
 {
 	//write the error behaviour here
-	uart_printstr("Error in ");
-	uart_printstr(err_source);
-	uart_printstr(" (");
-	uart_printhexa(TW_STATUS);
-	uart_printstr(")!\r\n");
+	uart_print_str("Error in ");
+	uart_print_str(err_source);
+	uart_print_str(" (");
+	uart_print_hexa(TW_STATUS);
+	uart_print_str(")!\r\n");
+}
+
+
+void _i2c_print_status( void )
+{
+	uart_print_str("0x");
+	uart_print_hexa(TW_STATUS);
+	uart_print_str("\r\n");
 }
 
 void _i2c_init( void )
@@ -24,7 +32,7 @@ void _i2c_init( void )
 		SET(PORTC, SDA);
 		SET(PORTC, SCL);
 	
-	//22.5.2: Bit Rate Generator Unit  ( period of SCL )
+	//22.5.2: Bit Rate Generator Unit	( period of SCL )
 		// SCL_freq = CPU_clock_freq / [16 + 2*(TWBR)*(Prescaler_value)] need to be > 16*CPU_clock_freq 
 		//			<=> TWBR = (CPU_clock_freq / SCL_freq- 16)/(2 * Prescale)
 		int	presclaler = 1; //-> pour que TWBR < 256 -> prescale de 1 (cf Table 22-7. TWI Bit Rate Prescaler)
@@ -43,7 +51,7 @@ void _i2c_init( void )
 
 	// 22.5.4 Control unit
 		//TWI interrupt (list of interrupt in this paragraph)
-			// any action susceptible to trigger an interrupt will do it by modifying SET(TWCR, TWINT). if set and  when event, TWI Status Register updated + SCL set to low -> stop transmission.
+			// any action susceptible to trigger an interrupt will do it by modifying SET(TWCR, TWINT). if set and	when event, TWI Status Register updated + SCL set to low -> stop transmission.
 			// to really interrupt the TWI interrupt must be enabled
 	
 	// 22.6 Using the TWI
@@ -54,108 +62,77 @@ void _i2c_init( void )
 	
 }
 
-void	_i2c_wait( void )
+	
+int8_t _i2c_start(uint8_t addr, e_mode_RW RW_mode)
 {
-	while (!(TWCR & (1<<TWINT)))
-		;
-}
-
-int8_t	_i2c_stop()
-{
-	TWCR = (1 << TWEN) | (1 << TWSTO) | (1 << TWINT);
-	while (TWCR & (1 << TWSTO))
-		;
-	return (0);
-}
-
-int8_t	_i2c_start( void )
-{
-	// === sending start
-	TWCR = (1 << TWEN) | (1 << TWSTA ) | (1 << TWINT);
-
-	_i2c_wait();
+	// send start
+	TWCR = (1 << TWINT) | (1 << TWSTA) | (1 << TWEN);
+	// wait for start condition ack
+	while (!(TWCR & (1 << TWINT)));
+	// check if start is received
 	if (TW_STATUS != TW_START)
 	{
-		_i2c_ERROR_display("start");
-		return (1);
+		_i2c_ERROR_display("start: send_start");
+		return 1;
 	}
-	return (0);
-}
-
-int8_t _i2c_repeated_start()
-{
-	TWCR = (1 << TWEN)| (1 << TWSTA ) | (1 << TWINT);
-	_i2c_wait();
-	if (TW_STATUS != TW_REP_START)
+	uart_print_str("Start: ");
+	_i2c_print_status();
+	// set data with address
+	TWDR = (addr << 1) | (RW_mode == MODE_READ);
+	// sent data
+	TWCR = (1 << TWINT) | (1 << TWEN);
+	// wait the ack
+	while (!(TWCR & (1 << TWINT)));
+	if (TW_STATUS != TW_MT_SLA_ACK && TW_STATUS != TW_MR_SLA_ACK)
 	{
-		_i2c_ERROR_display("start");
-		return (1);
+		_i2c_stop();
+		_i2c_ERROR_display("start: send SLA");
+		return 1;
 	}
-	return (0);
+	uart_print_str("SEND SLA: ");
+	_i2c_print_status();
+	return 0;
 }
 
-int8_t _i2c_send_SLA( char slave_addr, e_mode_RW mode) //master transmitter mode
+void _i2c_stop(void)
 {
-
-	//=== sending SLA ===
-	TWDR = (slave_addr << 1) + (mode == MODE_READ); //the slave address + read/write mode
-	// TWAMR = 0; //bit 1-7 -> no slave mask, all the slave address is read.
-
-	SET(TWCR, TWINT);
-	//=== check SLA reception ===
-
-	_i2c_wait();
-	if (TW_STATUS != ( (mode == MODE_READ) ? TW_MR_SLA_ACK : TW_MT_SLA_ACK))
-	{
-		_i2c_ERROR_display("start");
-		return (1);
-	}
-	return (0);
+	// send stop
+	TWCR = (1 << TWINT) | (1 << TWEN) | (1 << TWSTO);
+	//wait for the stop
+    while (TWCR & (1 << TWSTO));
+	uart_print_str("STOP: ");
+	_i2c_print_status();
 }
 
-
-int8_t _i2c_sending_data_char(char data)
+int8_t _i2c_write(unsigned char data)
 {
-	//=== data bit sending
+	// prepare data
 	TWDR = data;
-	TWCR = (1 << TWEN) | (1 << TWINT);
-
-	//=== data bit transmission confirmation
-	_i2c_wait();
+	// sent data
+	TWCR = (1 << TWINT) | (1 << TWEN);
+	// wait ack
+	while ((TWCR & (1 << TWINT)) == 0);
 	if (TW_STATUS != TW_MT_DATA_ACK)
 	{
-		_i2c_ERROR_display("start");
+		_i2c_ERROR_display("write");
 		return (1);
 	}
 	return (0);
 }
 
-int8_t _i2c_sending_data_str(char *data, long unsigned  len)
+uint8_t _i2c_read(uint8_t ack, uint8_t *dest)
 {
-	for (long unsigned int i = 0; i < len; ++i)
-	{
-		if (_i2c_sending_data_char(data[i]))
-			return (1);
+	// sent receive is ready
+	TWCR = (1 << TWINT) | (1 << TWEN) | ((ack == ACK) ? (1 << TWEA) : 0);
+	// wait ack
+	while (!(TWCR & (1 << TWINT))) {
 	}
+	if (TW_STATUS != ((ack == ACK) ? TW_MR_DATA_ACK : TW_MR_DATA_NACK))
+	{
+		_i2c_ERROR_display("write");
+		return (1);
+	}
+	*dest = TWDR;
 	return (0);
-}
-
-char _i2c_receiving_data( bool stop_after_reception)
-{
-	char c;
-
-	while (!(TWCR & (1<<TWINT)))
-		;
-	c = TWDR;
-	if(stop_after_reception)
-	{
-		TWCR = (1 << TWEN);
-		_i2c_stop();
-	}
-	else
-	{
-		TWCR = (1 << TWEN) | (1 << TWINT);
-	}
-	SET(TWCR, TWINT);
-	return c;
+	// prepare data
 }

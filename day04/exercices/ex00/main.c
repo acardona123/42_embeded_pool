@@ -15,24 +15,10 @@ int main()
 
 void	i2c_start( void )//start+_i2c_send_SLA
 {
-	_i2c_start();
-	uart_printstr("Start: ");
-	i2c_print_status();
-	_i2c_send_SLA(THERMO_SENSOR_ADDRESS, MODE_WRITE);
-	uart_printstr("Send SLA: ");
-	i2c_print_status();
+	_i2c_start(THERMO_SENSOR_ADDRESS, MODE_WRITE);
 }
 
-void	i2c_stop( void )
+void	i2c_stop( void )//start+_i2c_send_SLA
 {
 	_i2c_stop();
-	uart_printstr("Stop: ");
-	i2c_print_status();
-}
-
-void i2c_print_status( void )
-{
-	uart_printstr("0x");
-	uart_printhexa(TW_STATUS);
-	uart_printstr("\r\n");
 }
