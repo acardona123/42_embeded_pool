@@ -6,7 +6,7 @@ int main()
 
 	uart_print_str("=====\r\nSTART\r\n====\r\n\n");
 
-	_i2c_init();
+	i2c_init();
 
 	if (aht20_init())
 	{

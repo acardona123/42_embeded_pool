@@ -12,7 +12,7 @@ void _i2c_ERROR_display( const char *err_source )
 	uart_print_str(")!\r\n");
 }
 
-void _i2c_init( void )
+void i2c_init( void )
 {
 	//schem with all the register and their signification: figure 22-9 p221
 
