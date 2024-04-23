@@ -9,6 +9,7 @@ CFLAGS			=	-mmcu=$(MCU_TYPE) -DF_CPU=$(F_CPU) -Os
 DEPSFLAG		=	-MMD
 
 FILES			=	main \
+					rgb_leds \
 					tools
 
 SRC_DIR			=	.
