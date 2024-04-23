@@ -94,33 +94,3 @@ void	uart_print_hexa( unsigned char c )
 	uart_tx("0123456789ABCDEF"[c >> 4]);
 	uart_tx("0123456789ABCDEF"[c & 0x0f]);
 }
-
-void	uart_print_int( int n )
-{
-	unsigned int un;
-
-	if (n < 0)
-	{
-		uart_tx('-');
-		un = -n;
-	}
-	else
-	{
-		un = n;
-	}
-	if (un >= 10)
-	{
-		uart_print_int(un / 10);
-	}
-	uart_print_int(un % 10 + '0');
-}
-
-void	uart_print_float( float f, unsigned int precision)
-{
-	int n;
-
-	n = (int)f;
-	uart_print_int(n);
-	uart_tx(',');
-	uart_print_int((int)((f - n) * 10.f * precision + 0.5f));
-}
