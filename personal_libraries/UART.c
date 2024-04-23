@@ -81,10 +81,15 @@ void uart_print_str( const char *str )
 	uart_tx(0);
 }
 
+void uart_print_endl( void )
+{
+	uart_print_str("\r\n");
+}
+
 void uart_print_str_n( const char *str )
 {
 	uart_print_str(str);
-	uart_print_str("\r\n");
+	uart_print_endl();
 }
 
 void	uart_txt_erase_char( void )
@@ -99,4 +104,54 @@ void	uart_print_hexa( unsigned char c )
 	uart_print_str("0x");
 	uart_tx("0123456789ABCDEF"[c >> 4]);
 	uart_tx("0123456789ABCDEF"[c & 0x0f]);
+}
+
+void	uart_print_int( int n )
+{
+	unsigned int un;
+
+	if (n < 0)
+	{
+		uart_tx('-');
+		un = -n;
+	}
+	else
+	{
+		un = n;
+	}
+	if (un >= 10)
+	{
+		uart_print_int(un / 10);
+	}
+	uart_tx(un % 10 + '0');
+}
+
+void	uart_print_float( float f, unsigned int precision)
+{
+	int 			n;
+	unsigned int	i;
+
+	if (f < 0)
+	{
+		uart_tx('-');
+		f *= -1;
+	}
+	n = (int)f;
+	f -= n;
+	i = 0;
+	while (i < precision)
+	{
+		if ((int)(f * 10.f + 0.5f) < 0)
+		{
+			uart_print_str("UART: WARNING : float overflow, lowering precision to ");
+			uart_print_int(i);
+			uart_print_str_n(": ");
+			break;
+		}
+		f *= 10;
+		++i;
+	}
+	uart_print_int(n);
+	uart_tx('.');
+	uart_print_int((int)(f + 0.5f));
 }

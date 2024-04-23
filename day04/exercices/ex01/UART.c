@@ -111,7 +111,7 @@ void	uart_print_int( int n )
 	{
 		uart_print_int(un / 10);
 	}
-	uart_print_int(un % 10 + '0');
+	uart_print_tx(un % 10 + '0');
 }
 
 void	uart_print_float( float f, unsigned int precision)
