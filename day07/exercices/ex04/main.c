@@ -7,6 +7,7 @@ int main ( void )
 	unsigned char c;
 
 	rgb_init();
+	DDRB |= (1 << D1) | (1 << D2) | (1 << D3) | (1 << D4);
 
 	while(1)
 	{
@@ -21,20 +22,9 @@ int main ( void )
 
 static void	_display_led_ratio(unsigned char c)
 {
-	if (c >= 255 / 4)
-		SET(PORTB, D1);
-	else
-		RESET(PORTB, D1);
-	if (c >= 255 / 2)
-		SET(PORTB, D2);
-	else
-		RESET(PORTB, D2);
-	if ((uint16_t)c * 4 / 3 >= 255)
-		SET(PORTB, D3);
-	else
-		RESET(PORTB, D3);
-	if (c == 255)
-		SET(PORTB, D4);
-	else
-		RESET(PORTB, D4);
+	PORTB = PORTB & (~((1 << D1) | (1 << D2) | (1 << D3) | (1 << D4)))
+			| ((c >=64) << D1)
+			| ((c >=128) << D2)
+			| ((c >=192) << D3)
+			| ((c == 255) << D4);
 }
