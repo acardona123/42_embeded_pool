@@ -18,14 +18,6 @@ typedef enum
 	GND		= 0b1111
 } adc_channel;
 
-
-
-typedef	enum
-{
-	BIT_8 ,
-	BIT_10
-}	adc_resolution;
-
 unsigned char adc_RV1_8();
 
 
