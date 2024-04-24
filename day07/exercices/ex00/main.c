@@ -1,7 +1,6 @@
 #include "main.h"
 
 
-void capteur();
 
 int main ( void )
 {
@@ -14,7 +13,7 @@ int main ( void )
 
 	while(1)
 	{
-		c = adc_resistor();
+		c = adc_RV1_8();
 		uart_print_hexa(c);
 		uart_print_endl();
 		_delay_ms(20);

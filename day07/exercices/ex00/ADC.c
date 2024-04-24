@@ -13,7 +13,7 @@ ATMega328P doc
 unsigned char adc_RV1_8()
 {
 	ADMUX = (1 << REFS0) | (1 << ADLAR);
-	ADMUX |= 0 ;//ADC_pot = ADC0 = 0
+	ADMUX |= ADC0 ;//ADC_pot = ADC0 = 0
 	ADCSRA = (1 << ADPS0) | (1 << ADPS1) | (1 << ADPS2);
 	ADCSRA |= (1 << ADEN);
 
