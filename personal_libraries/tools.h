@@ -14,9 +14,9 @@
 # include <avr/interrupt.h>
 # include <stdbool.h>
 
-# define SET(x, y) ((x)|=(1 << (y)))
-# define TOGGLE(x, y) ((x)^=(1 << (y)))
-# define RESET(x, y) ((x)&=~(1<<(y)))
+# define SET(byte, bit_idx) ((byte)|=(1 << (bit_idx)))
+# define TOGGLE(byte, bit_idx) ((byte)^=(1 << (bit_idx)))
+# define RESET(byte, bit_idx) ((byte)&=~(1<<(bit_idx)))
 
 typedef enum
 {

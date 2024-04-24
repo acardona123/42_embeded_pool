@@ -65,3 +65,20 @@ void rgb_set(uint8_t red, uint8_t green, uint8_t blue)
 	OCR0B = 255 - red;
 	OCR2B = 255 - blue;
 }
+
+
+void wheel(uint8_t pos) {
+	pos = 255 - pos;
+	if (pos < 85)
+	{
+		rgb_set(255 - pos * 3, 0, pos * 3);
+	}
+	else if (pos < 170) {
+		pos = pos - 85;
+		rgb_set(0, pos * 3, 255 - pos * 3);
+	}
+	else {
+		pos = pos - 170;
+		rgb_set(pos * 3, 255 - pos * 3, 0);
+	}
+}
