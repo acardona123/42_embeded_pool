@@ -9,7 +9,7 @@ ATMega328P doc
 
 #include "ADC.h"
 
-
+//potentiometer
 unsigned char adc_RV1_8()
 {
 	ADMUX = (1 << REFS0) | (1 << ADLAR);
@@ -22,6 +22,7 @@ unsigned char adc_RV1_8()
 	return (ADCH);
 }
 
+//luxmeter
 unsigned char adc_LDR_8()
 {
 	ADMUX = (1 << REFS0) | (1 << ADLAR);
@@ -34,6 +35,7 @@ unsigned char adc_LDR_8()
 	return (ADCH);
 }
 
+//adc thermo-resistor
 unsigned char adc_NTC_8()
 {
 	ADMUX = (1 << REFS0) | (1 << ADLAR);
@@ -62,7 +64,7 @@ uint16_t adc_RV1_10()
 uint16_t adc_LDR_10()
 {
 	ADMUX = (1 << REFS0);
-	ADMUX |= ADC1 ;//ADC_pot = ADC0 = 0
+	ADMUX |= ADC1 ;
 	ADCSRA = (1 << ADPS0) | (1 << ADPS1) | (1 << ADPS2);
 	ADCSRA |= (1 << ADEN);
 
@@ -74,7 +76,7 @@ uint16_t adc_LDR_10()
 uint16_t adc_NTC_10()
 {
 	ADMUX = (1 << REFS0);
-	ADMUX |= ADC2 ;//ADC_pot = ADC0 = 0
+	ADMUX |= ADC2 ;
 	ADCSRA = (1 << ADPS0) | (1 << ADPS1) | (1 << ADPS2);
 	ADCSRA |= (1 << ADEN);
 
