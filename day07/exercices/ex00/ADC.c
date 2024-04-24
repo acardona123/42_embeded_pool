@@ -9,9 +9,9 @@ ATMega328P doc
 
 #include "ADC.h"
 
-
 unsigned char adc_RV1_8()
 {
+	DDRC &= ~(1 << ADC_POT);
 	ADMUX = (1 << REFS0) | (1 << ADLAR);
 	ADMUX |= ADC0 ;//ADC_pot = ADC0 = 0
 	ADCSRA = (1 << ADPS0) | (1 << ADPS1) | (1 << ADPS2);
