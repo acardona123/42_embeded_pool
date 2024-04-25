@@ -10,8 +10,7 @@ DEPSFLAG		=	-MMD
 
 FILES			=	main \
 					tools \
-					SPI \
-					UART
+					SPI
 
 SRC_DIR			=	.
 SRC				=	$(addprefix $(SRC_DIR)/, $(addsuffix .c, $(FILES)))
